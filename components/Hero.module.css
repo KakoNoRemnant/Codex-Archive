@@ -113,7 +113,9 @@
   width: 0.38rem;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: currentColor;
+  background: #6fa77a;
+  box-shadow: 0 0 0 0 rgb(111 167 122 / 30%);
+  animation: statusPulse 2.4s ease-out infinite;
 }
 
 .title {
@@ -272,6 +274,18 @@
   }
 }
 
+@keyframes statusPulse {
+  0%,
+  45% {
+    box-shadow: 0 0 0 0 rgb(111 167 122 / 28%);
+  }
+
+  80%,
+  100% {
+    box-shadow: 0 0 0 0.35rem rgb(111 167 122 / 0%);
+  }
+}
+
 @keyframes showMenu {
   from {
     opacity: 0;
@@ -403,6 +417,10 @@
   }
 
   .isScrambling {
+    animation: none;
+  }
+
+  .signal span {
     animation: none;
   }
 
