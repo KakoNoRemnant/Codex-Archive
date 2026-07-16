@@ -4,6 +4,13 @@
   --muted: #74746f;
 }
 
+[data-theme="dark"] {
+  --paper: #111111;
+  --ink: #f1f0eb;
+  --muted: #9b9b95;
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -21,6 +28,9 @@ body {
   font-family: var(--font-display), Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition:
+    background-color 450ms ease,
+    color 450ms ease;
 }
 
 button,
@@ -31,4 +41,10 @@ a {
 
 a {
   text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body {
+    transition: none;
+  }
 }

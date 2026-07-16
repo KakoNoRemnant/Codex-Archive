@@ -1,0 +1,100 @@
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 2rem;
+  padding: 1.5rem;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--paper);
+  animation: revealPage 0.85s cubic-bezier(0.76, 0, 0.24, 1) 1.75s forwards;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.header,
+.status {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.center {
+  align-self: center;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.wordmark {
+  font-size: clamp(3.5rem, 12vw, 10rem);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.8;
+  opacity: 0;
+  transform: translateY(0.35em);
+  animation: showWordmark 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+}
+
+.track {
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+  background: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.progress {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: loadProgress 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
+}
+
+@keyframes showWordmark {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes loadProgress {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes revealPage {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@media (max-width: 600px) {
+  .loader {
+    padding: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    animation-duration: 1ms;
+    animation-delay: 1ms;
+  }
+
+  .wordmark,
+  .progress {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
