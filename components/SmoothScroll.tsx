@@ -47,15 +47,25 @@ export default function SmoothScroll() {
 
       lenis.start();
     };
+    const handleScrollToTop = (event: Event) => {
+      event.preventDefault();
+      lenis.scrollTo(0, {
+        duration: 1.35,
+        force: true,
+        lock: true,
+      });
+    };
 
     lenis.on("scroll", updateScrollTrigger);
     window.addEventListener("codex:scroll-lock", handleScrollLock);
+    window.addEventListener("codex:scroll-to-top", handleScrollToTop);
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.off("scroll", updateScrollTrigger);
       window.removeEventListener("codex:scroll-lock", handleScrollLock);
+      window.removeEventListener("codex:scroll-to-top", handleScrollToTop);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };

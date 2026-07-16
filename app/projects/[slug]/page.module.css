@@ -67,7 +67,7 @@
   opacity: 0;
   filter: contrast(1.8) saturate(0.2);
   transform: scale(1.035);
-  animation: revealImage 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
+  animation: revealImage 1.65s cubic-bezier(0.22, 1, 0.36, 1) 0.16s forwards;
 }
 
 .glitchLayer {
@@ -83,12 +83,12 @@
 
 .glitchLayerOne {
   filter: saturate(1.8) hue-rotate(35deg);
-  animation: glitchLayerOne 0.9s steps(2, end) 0.05s forwards;
+  animation: glitchLayerOne 1.35s steps(2, end) 0.08s forwards;
 }
 
 .glitchLayerTwo {
   filter: contrast(1.5) hue-rotate(-40deg);
-  animation: glitchLayerTwo 0.85s steps(2, end) 0.08s forwards;
+  animation: glitchLayerTwo 1.3s steps(2, end) 0.12s forwards;
 }
 
 .visual {

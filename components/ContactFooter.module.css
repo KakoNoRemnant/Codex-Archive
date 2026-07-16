@@ -60,6 +60,47 @@
   border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
 }
 
+.backToTop {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  overflow: hidden;
+  padding: 0.65rem 0.8rem;
+  transition: color 320ms ease;
+}
+
+.backToTop::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: 0.8rem;
+  aspect-ratio: 1;
+  background: #111111;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 480ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.backToTop span {
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.backToTop:hover,
+.backToTop:focus-visible {
+  color: #f1f0eb;
+}
+
+.backToTop:hover::before,
+.backToTop:focus-visible::before {
+  transform: translate(-50%, -50%) scale(16);
+}
+
+.backToTop:hover span,
+.backToTop:focus-visible span {
+  transform: scale(1.08);
+}
+
 @media (max-width: 600px) {
   .contact {
     gap: 3rem;
@@ -88,7 +129,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .email span {
+  .email span,
+  .backToTop,
+  .backToTop::before,
+  .backToTop span {
     transition: none;
   }
 }
