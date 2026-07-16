@@ -29,7 +29,7 @@ export default function Hero() {
   }
 
   return (
-    <section className={styles.hero} aria-labelledby="codex-title">
+    <section className={styles.hero} id="top" aria-labelledby="codex-title">
       <header className={styles.topbar}>
         <span className={styles.meta}>CODEX / 2026</span>
         <button
