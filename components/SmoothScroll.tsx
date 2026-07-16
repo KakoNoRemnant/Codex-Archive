@@ -55,10 +55,18 @@ export default function SmoothScroll() {
         lock: true,
       });
     };
+    const handleScrollReset = (event: Event) => {
+      event.preventDefault();
+      lenis.scrollTo(0, {
+        immediate: true,
+        force: true,
+      });
+    };
 
     lenis.on("scroll", updateScrollTrigger);
     window.addEventListener("codex:scroll-lock", handleScrollLock);
     window.addEventListener("codex:scroll-to-top", handleScrollToTop);
+    window.addEventListener("codex:scroll-reset", handleScrollReset);
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
@@ -66,6 +74,7 @@ export default function SmoothScroll() {
       lenis.off("scroll", updateScrollTrigger);
       window.removeEventListener("codex:scroll-lock", handleScrollLock);
       window.removeEventListener("codex:scroll-to-top", handleScrollToTop);
+      window.removeEventListener("codex:scroll-reset", handleScrollReset);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };

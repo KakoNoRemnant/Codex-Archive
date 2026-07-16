@@ -80,25 +80,40 @@
 }
 
 .introduction {
+  width: min(34rem, 100%);
   display: grid;
-  gap: 0.5rem;
+  gap: 0.85rem;
+  padding: 0.35rem 0 0.35rem 1.25rem;
+  border-left: 1px solid color-mix(in srgb, currentColor 38%, transparent);
   opacity: 0;
   transform: translateY(1rem);
   animation: showIntroduction 0.9s cubic-bezier(0.22, 1, 0.36, 1) 2.05s forwards;
 }
 
 .description {
-  font-size: clamp(1.15rem, 2vw, 1.6rem);
-  line-height: 1.2;
+  max-width: 27ch;
+  font-size: clamp(1.35rem, 2.4vw, 2.1rem);
+  font-weight: 450;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
 }
 
 .signal {
-  margin-top: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: var(--font-mono), monospace;
   font-size: 0.65rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
-  opacity: 0.55;
+  opacity: 0.62;
+}
+
+.signal span {
+  width: 0.38rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
 }
 
 .title {

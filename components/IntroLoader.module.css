@@ -7,15 +7,54 @@
   gap: 2rem;
   padding: 1.5rem;
   overflow: hidden;
-  background: var(--ink);
+  isolation: isolate;
   color: var(--paper);
-  animation: revealPage 0.85s cubic-bezier(0.76, 0, 0.24, 1) 1.75s forwards;
+  animation: completeLoader 1ms linear 2.92s forwards;
+}
+
+.panels {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.panels span {
+  background: var(--ink);
+  clip-path: inset(0);
+  animation: retractPanelDown 0.82s cubic-bezier(0.76, 0, 0.24, 1) 1.78s
+    forwards;
+}
+
+.panels span:nth-child(even) {
+  animation-name: retractPanelUp;
+}
+
+.panels span:nth-child(2) {
+  animation-delay: 1.86s;
+}
+
+.panels span:nth-child(3) {
+  animation-delay: 1.94s;
+}
+
+.panels span:nth-child(4) {
+  animation-delay: 2.02s;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.header,
+.center,
+.status {
+  position: relative;
+  z-index: 1;
+  animation: fadeInterface 0.25s ease 1.7s forwards;
 }
 
 .header,
@@ -30,23 +69,48 @@
 .center {
   align-self: center;
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
 .wordmark {
+  display: flex;
   font-size: clamp(3.5rem, 12vw, 10rem);
   font-weight: 500;
   letter-spacing: -0.085em;
   line-height: 0.9;
+}
+
+.wordmark span {
+  display: inline-block;
   opacity: 0;
-  transform: translateY(0.35em);
-  animation: showWordmark 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
+  transform: translateY(0.45em);
+  animation: showLetter 0.72s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.wordmark span:nth-child(1) {
+  animation-delay: 0.38s;
+}
+
+.wordmark span:nth-child(2) {
+  animation-delay: 0.45s;
+}
+
+.wordmark span:nth-child(3) {
+  animation-delay: 0.52s;
+}
+
+.wordmark span:nth-child(4) {
+  animation-delay: 0.59s;
+}
+
+.wordmark span:nth-child(5) {
+  animation-delay: 0.66s;
 }
 
 .track {
+  position: relative;
   width: 100%;
   height: 1px;
-  overflow: hidden;
   background: color-mix(in srgb, currentColor 25%, transparent);
 }
 
@@ -57,10 +121,42 @@
   background: currentColor;
   transform: scaleX(0);
   transform-origin: left;
-  animation: loadProgress 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.25s forwards;
+  animation: loadProgress 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.42s forwards;
 }
 
-@keyframes showWordmark {
+.marker {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.5rem;
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  background: var(--ink);
+  transform: translate(-50%, -50%) rotate(45deg);
+  animation: moveMarker 1.35s cubic-bezier(0.65, 0, 0.35, 1) 0.42s forwards;
+}
+
+.status {
+  position: relative;
+  min-height: 1em;
+}
+
+.status span {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.status span:first-child {
+  animation: hideStatus 0.2s ease 1.42s forwards;
+}
+
+.status span:last-child {
+  opacity: 0;
+  animation: showStatus 0.3s ease 1.5s forwards;
+}
+
+@keyframes showLetter {
   to {
     opacity: 1;
     transform: translateY(0);
@@ -73,9 +169,46 @@
   }
 }
 
-@keyframes revealPage {
+@keyframes moveMarker {
   to {
-    transform: translateY(-100%);
+    left: 100%;
+  }
+}
+
+@keyframes hideStatus {
+  to {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+}
+
+@keyframes showStatus {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes retractPanelDown {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+@keyframes retractPanelUp {
+  to {
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+@keyframes fadeInterface {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes completeLoader {
+  to {
+    visibility: hidden;
   }
 }
 
@@ -91,10 +224,26 @@
     animation-delay: 1ms;
   }
 
-  .wordmark,
-  .progress {
+  .panels span,
+  .wordmark span,
+  .progress,
+  .marker,
+  .status span {
     animation: none;
+  }
+
+  .wordmark span,
+  .progress,
+  .status span:last-child {
     opacity: 1;
     transform: none;
+  }
+
+  .panels span {
+    clip-path: inset(0 0 100% 0);
+  }
+
+  .status span:first-child {
+    display: none;
   }
 }

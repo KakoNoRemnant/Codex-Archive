@@ -320,9 +320,14 @@ export default function Hero() {
 
       <div className={styles.content}>
         <div className={styles.introduction} data-hero-introduction>
-          <p className={styles.meta}>Design archive — 001</p>
-          <p className={styles.description}>Explore creative projects.</p>
-          <p className={styles.signal}>Signal / Unstable connection</p>
+          <p className={styles.meta}>Design archive / 2026</p>
+          <p className={styles.description}>
+            Selected experiments in design, code, and motion.
+          </p>
+          <p className={styles.signal}>
+            <span aria-hidden="true" />
+            Archive online / 04 projects
+          </p>
         </div>
 
         <h1
