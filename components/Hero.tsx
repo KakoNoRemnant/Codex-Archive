@@ -35,6 +35,7 @@ export default function Hero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [displayTitle, setDisplayTitle] = useState("CODEX");
   const [isScrambling, setIsScrambling] = useState(false);
+  const [isEasterEgg, setIsEasterEgg] = useState(false);
   const [menuLabels, setMenuLabels] = useState(MENU_LABELS);
   const [scramblingMenu, setScramblingMenu] = useState<
     Partial<Record<MenuLabel, boolean>>
@@ -42,6 +43,10 @@ export default function Hero() {
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrambleFrame = useRef<number | null>(null);
+  const titleHoverCount = useRef(0);
+  const easterEggThreshold = useRef(2);
+  const easterEggFrame = useRef<number | null>(null);
+  const easterEggTimer = useRef<number | null>(null);
   const menuScrambleFrames = useRef<
     Partial<Record<MenuLabel, number>>
   >({});
@@ -85,6 +90,60 @@ export default function Hero() {
       }
     }, 55);
   }, []);
+
+  const triggerEasterEgg = useCallback(() => {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      easterEggTimer.current !== null
+    ) {
+      return;
+    }
+
+    if (scrambleFrame.current !== null) {
+      window.clearInterval(scrambleFrame.current);
+      scrambleFrame.current = null;
+    }
+
+    const randomizeSignal = () => {
+      setDisplayTitle(
+        "CODEX"
+          .split("")
+          .map(() => getRandomSymbol())
+          .join(""),
+      );
+    };
+
+    setIsScrambling(true);
+    setIsEasterEgg(true);
+    randomizeSignal();
+    easterEggFrame.current = window.setInterval(randomizeSignal, 72);
+    easterEggTimer.current = window.setTimeout(
+      () => {
+        if (easterEggFrame.current !== null) {
+          window.clearInterval(easterEggFrame.current);
+        }
+
+        easterEggFrame.current = null;
+        easterEggTimer.current = null;
+        titleHoverCount.current = 0;
+        setDisplayTitle("CODEX");
+        setIsEasterEgg(false);
+        setIsScrambling(false);
+      },
+      750 + Math.random() * 650,
+    );
+  }, []);
+
+  const handleTitleHover = useCallback(() => {
+    titleHoverCount.current += 1;
+
+    if (titleHoverCount.current >= easterEggThreshold.current) {
+      triggerEasterEgg();
+      return;
+    }
+
+    scrambleTitle();
+  }, [scrambleTitle, triggerEasterEgg]);
 
   const scrambleMenuLabel = useCallback((key: MenuLabel) => {
     if (
@@ -212,6 +271,14 @@ export default function Hero() {
         window.clearInterval(scrambleFrame.current);
       }
 
+      if (easterEggFrame.current !== null) {
+        window.clearInterval(easterEggFrame.current);
+      }
+
+      if (easterEggTimer.current !== null) {
+        window.clearTimeout(easterEggTimer.current);
+      }
+
       Object.values(menuFrames).forEach((timer) => {
         window.clearInterval(timer);
       });
@@ -252,7 +319,7 @@ export default function Hero() {
       </header>
 
       <div className={styles.content}>
-        <div className={styles.introduction}>
+        <div className={styles.introduction} data-hero-introduction>
           <p className={styles.meta}>Design archive — 001</p>
           <p className={styles.description}>Explore creative projects.</p>
           <p className={styles.signal}>Signal / Unstable connection</p>
@@ -262,12 +329,13 @@ export default function Hero() {
           className={styles.title}
           id="codex-title"
           aria-label="CODEX"
-          onPointerEnter={scrambleTitle}
+          onPointerEnter={handleTitleHover}
         >
           <span
             className={`${styles.titleMask} ${
               isScrambling ? styles.isScrambling : ""
-            }`}
+            } ${isEasterEgg ? styles.easterEgg : ""}`}
+            data-glitch-text={displayTitle}
             aria-hidden="true"
           >
             {displayTitle.split("").map((letter, index) => (

@@ -148,6 +148,31 @@
   animation: signalLoss 110ms steps(2, end) infinite;
 }
 
+.easterEgg {
+  position: relative;
+  animation: techSignalLoss 72ms steps(2, end) infinite;
+}
+
+.easterEgg::before,
+.easterEgg::after {
+  content: attr(data-glitch-text);
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: currentColor;
+  pointer-events: none;
+}
+
+.easterEgg::before {
+  opacity: 0.68;
+  animation: glitchSliceTop 96ms steps(2, end) infinite;
+}
+
+.easterEgg::after {
+  opacity: 0.45;
+  animation: glitchSliceBottom 128ms steps(2, end) infinite reverse;
+}
+
 :global([data-intro="seen"]) .topbar,
 :global([data-intro="seen"]) .footer,
 :global([data-intro="seen"]) .introduction,
@@ -265,6 +290,57 @@
   }
 }
 
+@keyframes techSignalLoss {
+  0% {
+    transform: translate(0) skewX(0);
+    filter: contrast(1);
+  }
+
+  35% {
+    transform: translate(-0.025em, 0.012em) skewX(3deg);
+    filter: contrast(1.45) blur(0.3px);
+  }
+
+  70% {
+    transform: translate(0.02em, -0.008em) skewX(-2deg);
+    filter: contrast(1.2);
+  }
+}
+
+@keyframes glitchSliceTop {
+  0% {
+    clip-path: inset(8% 0 72% 0);
+    transform: translateX(-0.045em);
+  }
+
+  50% {
+    clip-path: inset(44% 0 38% 0);
+    transform: translateX(0.055em);
+  }
+
+  100% {
+    clip-path: inset(18% 0 62% 0);
+    transform: translateX(-0.02em);
+  }
+}
+
+@keyframes glitchSliceBottom {
+  0% {
+    clip-path: inset(68% 0 8% 0);
+    transform: translateX(0.04em);
+  }
+
+  55% {
+    clip-path: inset(52% 0 28% 0);
+    transform: translateX(-0.06em);
+  }
+
+  100% {
+    clip-path: inset(78% 0 4% 0);
+    transform: translateX(0.025em);
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     gap: 2rem;
@@ -322,5 +398,14 @@
 
   .isScrambling {
     animation: none;
+  }
+
+  .easterEgg {
+    animation: none;
+  }
+
+  .easterEgg::before,
+  .easterEgg::after {
+    display: none;
   }
 }

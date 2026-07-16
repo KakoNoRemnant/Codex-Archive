@@ -30,6 +30,9 @@ export default function FeaturedProject() {
       }
 
       const hero = document.querySelector("#top");
+      const heroIntroduction = document.querySelector(
+        "[data-hero-introduction]",
+      );
       let hapticReady = true;
       const transition = gsap.timeline({
         scrollTrigger: {
@@ -69,6 +72,18 @@ export default function FeaturedProject() {
             opacity: 0.12,
             scale: 0.98,
             yPercent: -5,
+            ease: "none",
+          },
+          0,
+        );
+      }
+
+      if (heroIntroduction) {
+        transition.to(
+          heroIntroduction,
+          {
+            opacity: 0,
+            yPercent: -18,
             ease: "none",
           },
           0,
@@ -132,6 +147,7 @@ export default function FeaturedProject() {
         >
           <CodeTerminal />
           <span className={styles.artworkIndex}>01</span>
+          <span className={styles.openProject}>Open project ↗</span>
         </Link>
 
         <div className={styles.details}>
