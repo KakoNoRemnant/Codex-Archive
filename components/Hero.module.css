@@ -18,6 +18,8 @@
 }
 
 .meta,
+.menuButton,
+.closeButton,
 .themeButton {
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
@@ -27,16 +29,36 @@
   text-transform: uppercase;
 }
 
+.menuButton,
+.closeButton,
 .themeButton {
   border: 0;
   background: transparent;
   cursor: pointer;
 }
 
+.actions {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+}
+
 .themeButton::before {
   content: "◐";
   display: inline-block;
   margin-right: 0.5rem;
+}
+
+.lightLabel {
+  display: none;
+}
+
+:global([data-theme="dark"]) .darkLabel {
+  display: none;
+}
+
+:global([data-theme="dark"]) .lightLabel {
+  display: inline;
 }
 
 .content {
@@ -101,6 +123,15 @@
   animation-delay: 1.96s;
 }
 
+:global([data-intro="seen"]) .topbar,
+:global([data-intro="seen"]) .footer,
+:global([data-intro="seen"]) .introduction,
+:global([data-intro="seen"]) .titleLetter {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+
 .footer::after {
   content: "";
   width: 3rem;
@@ -108,6 +139,56 @@
   margin-right: auto;
   background: currentColor;
   opacity: 0.35;
+}
+
+.menuPanel {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 3rem;
+  padding: 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+  animation: showMenu 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.menuHeader,
+.menuFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.menuFooter {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.navigation {
+  align-self: center;
+  display: grid;
+}
+
+.navigation a {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  align-items: baseline;
+  padding: 0.18em 0;
+  border-bottom: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+  font-size: clamp(3.8rem, 10vw, 9rem);
+  font-weight: 500;
+  letter-spacing: -0.075em;
+  line-height: 0.95;
+}
+
+.navigation a span {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
 }
 
 @keyframes revealLetter {
@@ -129,6 +210,13 @@
   }
 }
 
+@keyframes showMenu {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}
+
 @media (max-width: 600px) {
   .hero {
     gap: 2rem;
@@ -142,6 +230,14 @@
   .location {
     display: none;
   }
+
+  .menuPanel {
+    padding: 1rem;
+  }
+
+  .navigation a {
+    grid-template-columns: 2rem 1fr;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -152,5 +248,9 @@
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .menuPanel {
+    animation: none;
   }
 }

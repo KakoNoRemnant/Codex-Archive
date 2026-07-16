@@ -7,7 +7,7 @@ import ProjectArchive from "@/components/ProjectArchive";
 
 export default function Home() {
   return (
-    <main>
+    <main id="main-content">
       <IntroLoader />
       <Hero />
       <FeaturedProject />

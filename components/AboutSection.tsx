@@ -9,7 +9,7 @@ const capabilities = [
 
 export default function AboutSection() {
   return (
-    <section className={styles.about} aria-labelledby="about-title">
+    <section className={styles.about} id="about" aria-labelledby="about-title">
       <header className={styles.header}>
         <span>About CODEX</span>
         <span>Independent / Digital</span>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import ThemeInitializer from "@/components/ThemeInitializer";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -28,7 +29,13 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${ibmPlexMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <a className="skipLink" href="#main-content">
+          Skip to content
+        </a>
+        <ThemeInitializer />
+        {children}
+      </body>
     </html>
   );
 }

@@ -1,0 +1,139 @@
+.page {
+  min-height: 100vh;
+  padding: 1.5rem;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.header,
+.category,
+.information,
+.footer {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.header,
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.hero {
+  min-height: 70svh;
+  display: grid;
+  align-content: end;
+  gap: 2rem;
+  padding: 8rem 0 2rem;
+}
+
+.hero h1 {
+  max-width: 10ch;
+  font-size: clamp(4.5rem, 13vw, 13rem);
+  font-weight: 500;
+  letter-spacing: -0.085em;
+  line-height: 0.78;
+}
+
+.artwork {
+  position: relative;
+  min-height: 80svh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+  background:
+    repeating-linear-gradient(
+      90deg,
+      transparent 0,
+      transparent calc(10% - 1px),
+      color-mix(in srgb, currentColor 9%, transparent) 10%
+    ),
+    repeating-linear-gradient(
+      transparent 0,
+      transparent calc(20% - 1px),
+      color-mix(in srgb, currentColor 9%, transparent) 20%
+    );
+}
+
+.artwork > span {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(8rem, 28vw, 25rem);
+  font-weight: 500;
+  letter-spacing: -0.1em;
+  line-height: 1;
+}
+
+.disc {
+  position: absolute;
+  width: min(60vw, 44rem);
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.disc::before,
+.disc::after {
+  content: "";
+  position: absolute;
+  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  border-radius: inherit;
+}
+
+.disc::before {
+  inset: 15%;
+}
+
+.disc::after {
+  inset: 32%;
+}
+
+.information {
+  min-height: 70svh;
+  display: grid;
+  grid-template-columns: 1fr minmax(18rem, 0.7fr);
+  gap: 4rem;
+  align-items: center;
+}
+
+.summary {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 3.5rem);
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 1rem;
+  }
+
+  .hero {
+    min-height: 60svh;
+  }
+
+  .artwork {
+    min-height: 60svh;
+  }
+
+  .disc {
+    width: 76vw;
+  }
+
+  .information {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-content: center;
+  }
+}

@@ -1,25 +1,6 @@
+import Link from "next/link";
+import { projects } from "@/data/projects";
 import styles from "./ProjectArchive.module.css";
-
-const projects = [
-  {
-    number: "02",
-    title: "Signal Studies",
-    category: "Interactive experiment",
-    year: "2026",
-  },
-  {
-    number: "03",
-    title: "Terminal Objects",
-    category: "Digital identity",
-    year: "2025",
-  },
-  {
-    number: "04",
-    title: "Material Memory",
-    category: "Art direction",
-    year: "2025",
-  },
-];
 
 export default function ProjectArchive() {
   return (
@@ -35,7 +16,11 @@ export default function ProjectArchive() {
 
       <div className={styles.list}>
         {projects.map((project) => (
-          <article className={styles.row} key={project.number}>
+          <Link
+            className={styles.row}
+            href={`/projects/${project.slug}`}
+            key={project.number}
+          >
             <span className={styles.number}>{project.number}</span>
             <h3 className={styles.title}>{project.title}</h3>
             <p className={styles.category}>{project.category}</p>
@@ -43,7 +28,7 @@ export default function ProjectArchive() {
             <span className={styles.arrow} aria-hidden="true">
               ↗
             </span>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

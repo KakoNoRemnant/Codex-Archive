@@ -1,12 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./IntroLoader.module.css";
 
 export default function IntroLoader() {
-  const [isVisible, setIsVisible] = useState(true);
+  const [shouldPlay, setShouldPlay] = useState<boolean | null>(null);
 
-  if (!isVisible) {
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => {
+      const hasPlayed = sessionStorage.getItem("codex-intro-seen") === "true";
+
+      document.documentElement.dataset.intro = hasPlayed ? "seen" : "playing";
+      setShouldPlay(!hasPlayed);
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  if (shouldPlay !== true) {
     return null;
   }
 
@@ -16,7 +27,8 @@ export default function IntroLoader() {
       aria-hidden="true"
       onAnimationEnd={(event) => {
         if (event.currentTarget === event.target) {
-          setIsVisible(false);
+          sessionStorage.setItem("codex-intro-seen", "true");
+          setShouldPlay(false);
         }
       }}
     >

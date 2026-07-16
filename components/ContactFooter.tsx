@@ -2,7 +2,7 @@ import styles from "./ContactFooter.module.css";
 
 export default function ContactFooter() {
   return (
-    <footer className={styles.contact}>
+    <footer className={styles.contact} id="contact">
       <div className={styles.labelRow}>
         <span>Have a project in mind?</span>
         <span>Open for conversations</span>
@@ -13,7 +13,10 @@ export default function ContactFooter() {
           Let&apos;s create something worth remembering.
         </h2>
 
-        <a className={styles.email} href="mailto:hello@yourdomain.com">
+        <a
+          className={styles.email}
+          href="mailto:victor.promsrichan@hotmail.com"
+        >
           victor.promsrichan@hotmail.com
           <span aria-hidden="true">↗</span>
         </a>
