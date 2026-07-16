@@ -1,4 +1,6 @@
 .archive {
+  position: relative;
+  z-index: 2;
   min-height: 100svh;
   padding: 7rem 1.5rem 3rem;
   background: var(--paper);
@@ -72,6 +74,7 @@
 
   .heading {
     margin-bottom: 3rem;
+    font-size: clamp(3.2rem, 16vw, 5rem);
   }
 
   .row {

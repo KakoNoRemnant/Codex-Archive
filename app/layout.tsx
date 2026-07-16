@@ -15,8 +15,41 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "CODEX — Design Archive",
-  description: "Explore creative projects from the CODEX design archive.",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  ),
+  title: {
+    default: "CODEX — Design Archive",
+    template: "%s — CODEX",
+  },
+  description:
+    "An independent digital archive exploring identity, interaction, and motion.",
+  applicationName: "CODEX",
+  keywords: [
+    "creative development",
+    "web design",
+    "interaction design",
+    "digital art direction",
+    "motion design",
+    "portfolio",
+  ],
+  authors: [{ name: "CODEX" }],
+  creator: "CODEX",
+  category: "Design",
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    siteName: "CODEX",
+    title: "CODEX — Design Archive",
+    description:
+      "An independent digital archive exploring identity, interaction, and motion.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CODEX — Design Archive",
+    description:
+      "An independent digital archive exploring identity, interaction, and motion.",
+  },
 };
 
 export default function RootLayout({

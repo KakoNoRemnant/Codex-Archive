@@ -1,12 +1,64 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Hero.module.css";
+
+const SCRAMBLE_SYMBOLS = Array.from(
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/*+<>[]" +
+    "アカサタナハマヤラワ" +
+    "天地玄空未来光影" +
+    "กขคงจฉชทนมยร" +
+    "ΩΣΔΛΨЖФЯ",
+);
 
 export default function Hero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [displayTitle, setDisplayTitle] = useState("CODEX");
+  const [isScrambling, setIsScrambling] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const scrambleFrame = useRef<number | null>(null);
+
+  const scrambleTitle = useCallback(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    if (scrambleFrame.current !== null) {
+      return;
+    }
+
+    const target = "CODEX";
+    let progress = 0;
+
+    setIsScrambling(true);
+    scrambleFrame.current = window.setInterval(() => {
+      const nextTitle = target
+        .split("")
+        .map((letter, index) => {
+          if (index < Math.floor(progress)) {
+            return letter;
+          }
+
+          return SCRAMBLE_SYMBOLS[
+            Math.floor(Math.random() * SCRAMBLE_SYMBOLS.length)
+          ];
+        })
+        .join("");
+
+      setDisplayTitle(nextTitle);
+      progress += 0.42;
+
+      if (progress > target.length) {
+        if (scrambleFrame.current !== null) {
+          window.clearInterval(scrambleFrame.current);
+        }
+        scrambleFrame.current = null;
+        setDisplayTitle(target);
+        setIsScrambling(false);
+      }
+    }, 55);
+  }, []);
 
   function toggleTheme() {
     const dark = document.documentElement.dataset.theme !== "dark";
@@ -36,6 +88,20 @@ export default function Hero() {
       window.removeEventListener("keydown", closeOnEscape);
     };
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    const firstScramble = window.setTimeout(scrambleTitle, 3200);
+    const repeatScramble = window.setInterval(scrambleTitle, 9000);
+
+    return () => {
+      window.clearTimeout(firstScramble);
+      window.clearInterval(repeatScramble);
+
+      if (scrambleFrame.current !== null) {
+        window.clearInterval(scrambleFrame.current);
+      }
+    };
+  }, [scrambleTitle]);
 
   return (
     <section className={styles.hero} id="top" aria-labelledby="codex-title">
@@ -70,11 +136,22 @@ export default function Hero() {
         <div className={styles.introduction}>
           <p className={styles.meta}>Design archive — 001</p>
           <p className={styles.description}>Explore creative projects.</p>
+          <p className={styles.signal}>Signal / Unstable connection</p>
         </div>
 
-        <h1 className={styles.title} id="codex-title" aria-label="CODEX">
-          <span className={styles.titleMask} aria-hidden="true">
-            {"CODEX".split("").map((letter, index) => (
+        <h1
+          className={styles.title}
+          id="codex-title"
+          aria-label="CODEX"
+          onPointerEnter={scrambleTitle}
+        >
+          <span
+            className={`${styles.titleMask} ${
+              isScrambling ? styles.isScrambling : ""
+            }`}
+            aria-hidden="true"
+          >
+            {displayTitle.split("").map((letter, index) => (
               <span className={styles.titleLetter} key={index}>
                 {letter}
               </span>

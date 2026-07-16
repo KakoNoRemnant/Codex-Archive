@@ -7,7 +7,7 @@ import Link from "next/link";
 import styles from "./FeaturedProject.module.css";
 
 export default function FeaturedProject() {
-  const projectRef = useRef<HTMLElement>(null);
+  const projectRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!projectRef.current) {
@@ -19,6 +19,74 @@ export default function FeaturedProject() {
     const animation = gsap.context(() => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         return;
+      }
+
+      const projectPanel =
+        projectRef.current?.querySelector<HTMLElement>(`.${styles.project}`);
+
+      if (!projectPanel) {
+        return;
+      }
+
+      const hero = document.querySelector("#top");
+      let hapticReady = true;
+      const transition = gsap.timeline({
+        scrollTrigger: {
+          trigger: projectRef.current,
+          start: "top bottom",
+          end: "top top",
+          scrub: 0.8,
+          snap: {
+            snapTo: (progress) => {
+              if (progress < 0.3) {
+                return 0;
+              }
+
+              if (progress > 0.7) {
+                return 1;
+              }
+
+              return progress;
+            },
+            delay: 0.12,
+            duration: { min: 0.15, max: 0.35 },
+            ease: "power1.inOut",
+          },
+          onUpdate: (self) => {
+            if (self.progress > 0.72 && hapticReady) {
+              navigator.vibrate?.(12);
+              hapticReady = false;
+            }
+
+            if (self.progress < 0.42) {
+              hapticReady = true;
+            }
+          },
+        },
+      });
+
+      transition.fromTo(
+        projectPanel,
+        {
+          clipPath: "inset(0 0 68% 0)",
+        },
+        {
+          clipPath: "inset(0 0 0% 0)",
+          ease: "none",
+        },
+      );
+
+      if (hero) {
+        transition.to(
+          hero,
+          {
+            opacity: 0.12,
+            scale: 0.98,
+            yPercent: -5,
+            ease: "none",
+          },
+          0,
+        );
       }
 
       const timeline = gsap.timeline({
@@ -75,39 +143,43 @@ export default function FeaturedProject() {
   }, []);
 
   return (
-    <section
+    <div
       ref={projectRef}
-      className={styles.project}
+      className={styles.projectStage}
       id="selected-work"
-      aria-labelledby="project-one-title"
     >
-      <header className={styles.header}>
-        <span>Selected work / 01</span>
-        <span>2026</span>
-      </header>
-
-      <Link
-        className={styles.artwork}
-        href="/projects/neural-form"
-        aria-label="View the Neural Form project"
+      <section
+        className={styles.project}
+        aria-labelledby="project-one-title"
       >
-        <span className={styles.artworkIndex}>01</span>
-        <span className={styles.orbit} aria-hidden="true" />
-        <span className={styles.monogram} aria-hidden="true">
-          N/F
-        </span>
-      </Link>
+        <header className={styles.header}>
+          <span>Selected work / 01</span>
+          <span>2026</span>
+        </header>
 
-      <div className={styles.details}>
-        <h2 className={styles.title} id="project-one-title">
-          <Link href="/projects/neural-form">Neural Form</Link>
-        </h2>
+        <Link
+          className={styles.artwork}
+          href="/projects/neural-form"
+          aria-label="View the Neural Form project"
+        >
+          <span className={styles.artworkIndex}>01</span>
+          <span className={styles.orbit} aria-hidden="true" />
+          <span className={styles.monogram} aria-hidden="true">
+            N/F
+          </span>
+        </Link>
 
-        <div className={styles.summary}>
-          <p>Digital identity and interactive experience.</p>
-          <span>Art direction / Web design</span>
+        <div className={styles.details}>
+          <h2 className={styles.title} id="project-one-title">
+            <Link href="/projects/neural-form">Neural Form</Link>
+          </h2>
+
+          <div className={styles.summary}>
+            <p>Digital identity and interactive experience.</p>
+            <span>Art direction / Web design</span>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }

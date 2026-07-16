@@ -1,4 +1,6 @@
 .contact {
+  position: relative;
+  z-index: 2;
   min-height: 100svh;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -71,6 +73,17 @@
 
   .bottom {
     flex-wrap: wrap;
+  }
+
+  .heading {
+    font-size: clamp(3rem, 14vw, 5rem);
+    overflow-wrap: anywhere;
+  }
+
+  .email {
+    max-width: 100%;
+    font-size: clamp(0.95rem, 4.5vw, 1.4rem);
+    overflow-wrap: anywhere;
   }
 }
 
