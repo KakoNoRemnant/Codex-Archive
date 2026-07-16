@@ -25,8 +25,8 @@ export const projects: Project[] = [
     featured: true,
     visual: "neural",
     image: {
-      src: "/images/neural-form.jpg",
-      alt: "Futuristic neon portrait with digital distortion",
+      src: "/images/neutral-form.gif",
+      alt: "Animated experimental artwork for Neural Form",
     },
   },
   {

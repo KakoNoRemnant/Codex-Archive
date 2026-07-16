@@ -176,6 +176,8 @@
   padding: 1.5rem;
   background: var(--ink);
   color: var(--paper);
+  overscroll-behavior: none;
+  touch-action: none;
   animation: showMenu 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 

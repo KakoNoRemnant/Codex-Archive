@@ -37,13 +37,25 @@ export default function SmoothScroll() {
 
     const updateScrollTrigger = () => ScrollTrigger.update();
     const updateLenis = (time: number) => lenis.raf(time * 1000);
+    const handleScrollLock = (event: Event) => {
+      const shouldLock = (event as CustomEvent<boolean>).detail;
+
+      if (shouldLock) {
+        lenis.stop();
+        return;
+      }
+
+      lenis.start();
+    };
 
     lenis.on("scroll", updateScrollTrigger);
+    window.addEventListener("codex:scroll-lock", handleScrollLock);
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
     return () => {
       lenis.off("scroll", updateScrollTrigger);
+      window.removeEventListener("codex:scroll-lock", handleScrollLock);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };

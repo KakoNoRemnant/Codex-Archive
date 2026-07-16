@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Image from "next/image";
 import Link from "next/link";
 import styles from "./FeaturedProject.module.css";
 
@@ -145,6 +146,14 @@ export default function FeaturedProject() {
           href="/projects/neural-form"
           aria-label="View the Neural Form project"
         >
+          <Image
+            className={styles.artworkImage}
+            src="/images/neutral-form.gif"
+            alt="Animated experimental artwork for Neural Form"
+            fill
+            sizes="(max-width: 700px) 100vw, 96vw"
+            unoptimized
+          />
           <span className={styles.artworkIndex}>01</span>
         </Link>
 

@@ -85,6 +85,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               alt={project.image.alt}
               fill
               sizes="(max-width: 700px) 100vw, 95vw"
+              unoptimized={project.image.src.endsWith(".gif")}
             />
             <span
               className={`${styles.glitchLayer} ${styles.glitchLayerOne}`}

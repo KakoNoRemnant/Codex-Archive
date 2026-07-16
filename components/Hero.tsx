@@ -140,20 +140,62 @@ export default function Hero() {
       return;
     }
 
+    const root = document.documentElement;
+    const previousRootOverflow = root.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+
+    function preventScroll(event: Event) {
+      event.preventDefault();
+    }
+
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") {
         setIsMenuOpen(false);
         window.requestAnimationFrame(() => menuButtonRef.current?.focus());
       }
+
+      if (
+        [
+          "ArrowDown",
+          "ArrowUp",
+          "End",
+          "Home",
+          "PageDown",
+          "PageUp",
+          " ",
+        ].includes(event.key)
+      ) {
+        event.preventDefault();
+      }
     }
 
     closeButtonRef.current?.focus();
+    root.style.overflow = "hidden";
     document.body.style.overflow = "hidden";
+    window.dispatchEvent(
+      new CustomEvent("codex:scroll-lock", { detail: true }),
+    );
     window.addEventListener("keydown", closeOnEscape);
+    window.addEventListener("wheel", preventScroll, {
+      capture: true,
+      passive: false,
+    });
+    window.addEventListener("touchmove", preventScroll, {
+      capture: true,
+      passive: false,
+    });
 
     return () => {
-      document.body.style.overflow = "";
+      root.style.overflow = previousRootOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      window.dispatchEvent(
+        new CustomEvent("codex:scroll-lock", { detail: false }),
+      );
       window.removeEventListener("keydown", closeOnEscape);
+      window.removeEventListener("wheel", preventScroll, { capture: true });
+      window.removeEventListener("touchmove", preventScroll, {
+        capture: true,
+      });
     };
   }, [isMenuOpen]);
 
