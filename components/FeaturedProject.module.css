@@ -21,6 +21,7 @@
 
 .artwork {
   position: relative;
+  display: block;
   min-height: 55vh;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, currentColor 24%, transparent);

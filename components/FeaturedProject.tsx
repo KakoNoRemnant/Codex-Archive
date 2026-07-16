@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Link from "next/link";
 import styles from "./FeaturedProject.module.css";
 
 export default function FeaturedProject() {
@@ -85,17 +86,21 @@ export default function FeaturedProject() {
         <span>2026</span>
       </header>
 
-      <div className={styles.artwork} role="img" aria-label="Abstract grid artwork">
+      <Link
+        className={styles.artwork}
+        href="/projects/neural-form"
+        aria-label="View the Neural Form project"
+      >
         <span className={styles.artworkIndex}>01</span>
         <span className={styles.orbit} aria-hidden="true" />
         <span className={styles.monogram} aria-hidden="true">
           N/F
         </span>
-      </div>
+      </Link>
 
       <div className={styles.details}>
         <h2 className={styles.title} id="project-one-title">
-          Neural Form
+          <Link href="/projects/neural-form">Neural Form</Link>
         </h2>
 
         <div className={styles.summary}>

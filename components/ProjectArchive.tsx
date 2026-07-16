@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { projects } from "@/data/projects";
+import { archiveProjects } from "@/data/projects";
 import styles from "./ProjectArchive.module.css";
 
 export default function ProjectArchive() {
@@ -15,7 +15,7 @@ export default function ProjectArchive() {
       </h2>
 
       <div className={styles.list}>
-        {projects.map((project) => (
+        {archiveProjects.map((project) => (
           <Link
             className={styles.row}
             href={`/projects/${project.slug}`}

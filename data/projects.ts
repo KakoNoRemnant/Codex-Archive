@@ -5,9 +5,20 @@ export type Project = {
   category: string;
   year: string;
   summary: string;
+  featured?: boolean;
 };
 
 export const projects: Project[] = [
+  {
+    number: "01",
+    slug: "neural-form",
+    title: "Neural Form",
+    category: "Art direction / Web design",
+    year: "2026",
+    summary:
+      "A digital identity and interactive experience exploring structured systems, synthetic form, and responsive visual language.",
+    featured: true,
+  },
   {
     number: "02",
     slug: "signal-studies",
@@ -40,3 +51,5 @@ export const projects: Project[] = [
 export function getProject(slug: string) {
   return projects.find((project) => project.slug === slug);
 }
+
+export const archiveProjects = projects.filter((project) => !project.featured);
