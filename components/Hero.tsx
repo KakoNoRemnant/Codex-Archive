@@ -348,9 +348,9 @@ export default function Hero() {
       </div>
 
       <footer className={styles.footer}>
-        <span className={styles.meta}>Scroll to explore</span>
+        <span className={styles.meta}>Discover the archive</span>
         <span className={`${styles.meta} ${styles.location}`}>
-          Stockholm / SE
+          Begin ↓
         </span>
       </footer>
 

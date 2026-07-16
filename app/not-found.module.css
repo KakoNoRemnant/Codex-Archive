@@ -31,7 +31,7 @@
   font-size: clamp(8rem, 28vw, 26rem);
   font-weight: 500;
   letter-spacing: -0.1em;
-  line-height: 0.7;
+  line-height: 0.82;
 }
 
 .center h1 {
@@ -39,7 +39,7 @@
   font-size: clamp(2.5rem, 5vw, 5rem);
   font-weight: 500;
   letter-spacing: -0.06em;
-  line-height: 0.9;
+  line-height: 1;
 }
 
 .link {

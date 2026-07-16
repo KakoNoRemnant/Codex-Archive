@@ -33,7 +33,7 @@
   font-size: clamp(4rem, 10vw, 10rem);
   font-weight: 500;
   letter-spacing: -0.08em;
-  line-height: 0.82;
+  line-height: 0.94;
 }
 
 .email {

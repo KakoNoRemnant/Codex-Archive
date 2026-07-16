@@ -49,6 +49,11 @@ a {
   outline-offset: 4px;
 }
 
+::selection {
+  background: var(--ink);
+  color: var(--paper);
+}
+
 .skipLink {
   position: fixed;
   top: 1rem;

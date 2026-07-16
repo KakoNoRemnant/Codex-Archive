@@ -37,7 +37,7 @@
   font-size: clamp(3.5rem, 12vw, 10rem);
   font-weight: 500;
   letter-spacing: -0.085em;
-  line-height: 0.8;
+  line-height: 0.9;
   opacity: 0;
   transform: translateY(0.35em);
   animation: showWordmark 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
