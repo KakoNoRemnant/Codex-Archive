@@ -35,25 +35,9 @@ export default function FeaturedProject() {
         scrollTrigger: {
           trigger: projectRef.current,
           start: "top bottom",
-          end: "top top",
+          end: "top 76%",
           scrub: true,
           fastScrollEnd: true,
-          snap: {
-            snapTo: (progress, self) => {
-              if (progress <= 0.08) {
-                return 0;
-              }
-
-              if (progress >= 0.92) {
-                return 1;
-              }
-
-              return self?.direction === -1 ? 0 : 1;
-            },
-            delay: 0.02,
-            duration: { min: 0.12, max: 0.25 },
-            ease: "power1.inOut",
-          },
           onUpdate: (self) => {
             if (self.progress > 0.72 && hapticReady) {
               navigator.vibrate?.(12);
