@@ -1,6 +1,8 @@
 .projectStage {
   position: relative;
   z-index: 2;
+  isolation: isolate;
+  background: var(--ink);
 }
 
 .project {

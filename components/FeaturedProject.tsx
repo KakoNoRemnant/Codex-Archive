@@ -35,21 +35,13 @@ export default function FeaturedProject() {
           trigger: projectRef.current,
           start: "top bottom",
           end: "top top",
-          scrub: 0.8,
+          scrub: true,
+          fastScrollEnd: true,
           snap: {
-            snapTo: (progress) => {
-              if (progress < 0.3) {
-                return 0;
-              }
-
-              if (progress > 0.7) {
-                return 1;
-              }
-
-              return progress;
-            },
-            delay: 0.12,
-            duration: { min: 0.15, max: 0.35 },
+            snapTo: (_progress, self) =>
+              (self?.direction ?? 1) > 0 ? 1 : 0,
+            delay: 0.02,
+            duration: { min: 0.12, max: 0.25 },
             ease: "power1.inOut",
           },
           onUpdate: (self) => {
@@ -94,7 +86,8 @@ export default function FeaturedProject() {
           trigger: projectRef.current,
           start: "top 85%",
           end: "top 20%",
-          scrub: 0.8,
+          scrub: 0.35,
+          fastScrollEnd: true,
         },
       });
 
