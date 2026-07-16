@@ -11,13 +11,40 @@ const SCRAMBLE_SYMBOLS = Array.from(
     "ΩΣΔΛΨЖФЯ",
 );
 
+type MenuLabel = "work" | "about" | "contact";
+
+const MENU_LABELS: Record<MenuLabel, string> = {
+  work: "Work",
+  about: "About",
+  contact: "Contact",
+};
+
+function createRandomRevealOrder(length: number) {
+  return Array.from({ length }, (_, index) => index).sort(
+    () => Math.random() - 0.5,
+  );
+}
+
+function getRandomSymbol() {
+  return SCRAMBLE_SYMBOLS[
+    Math.floor(Math.random() * SCRAMBLE_SYMBOLS.length)
+  ];
+}
+
 export default function Hero() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [displayTitle, setDisplayTitle] = useState("CODEX");
   const [isScrambling, setIsScrambling] = useState(false);
+  const [menuLabels, setMenuLabels] = useState(MENU_LABELS);
+  const [scramblingMenu, setScramblingMenu] = useState<
+    Partial<Record<MenuLabel, boolean>>
+  >({});
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrambleFrame = useRef<number | null>(null);
+  const menuScrambleFrames = useRef<
+    Partial<Record<MenuLabel, number>>
+  >({});
 
   const scrambleTitle = useCallback(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -29,6 +56,7 @@ export default function Hero() {
     }
 
     const target = "CODEX";
+    const revealOrder = createRandomRevealOrder(target.length);
     let progress = 0;
 
     setIsScrambling(true);
@@ -36,18 +64,16 @@ export default function Hero() {
       const nextTitle = target
         .split("")
         .map((letter, index) => {
-          if (index < Math.floor(progress)) {
+          if (revealOrder.indexOf(index) < Math.floor(progress)) {
             return letter;
           }
 
-          return SCRAMBLE_SYMBOLS[
-            Math.floor(Math.random() * SCRAMBLE_SYMBOLS.length)
-          ];
+          return getRandomSymbol();
         })
         .join("");
 
       setDisplayTitle(nextTitle);
-      progress += 0.42;
+      progress += 0.3 + Math.random() * 0.28;
 
       if (progress > target.length) {
         if (scrambleFrame.current !== null) {
@@ -56,6 +82,48 @@ export default function Hero() {
         scrambleFrame.current = null;
         setDisplayTitle(target);
         setIsScrambling(false);
+      }
+    }, 55);
+  }, []);
+
+  const scrambleMenuLabel = useCallback((key: MenuLabel) => {
+    if (
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      menuScrambleFrames.current[key] !== undefined
+    ) {
+      return;
+    }
+
+    const target = MENU_LABELS[key];
+    const revealOrder = createRandomRevealOrder(target.length);
+    let progress = 0;
+
+    setScramblingMenu((current) => ({ ...current, [key]: true }));
+    menuScrambleFrames.current[key] = window.setInterval(() => {
+      const nextLabel = target
+        .split("")
+        .map((letter, index) => {
+          if (revealOrder.indexOf(index) < Math.floor(progress)) {
+            return letter;
+          }
+
+          return getRandomSymbol();
+        })
+        .join("");
+
+      setMenuLabels((current) => ({ ...current, [key]: nextLabel }));
+      progress += 0.34 + Math.random() * 0.3;
+
+      if (progress > target.length) {
+        const timer = menuScrambleFrames.current[key];
+
+        if (timer !== undefined) {
+          window.clearInterval(timer);
+        }
+
+        delete menuScrambleFrames.current[key];
+        setMenuLabels((current) => ({ ...current, [key]: target }));
+        setScramblingMenu((current) => ({ ...current, [key]: false }));
       }
     }, 55);
   }, []);
@@ -92,6 +160,7 @@ export default function Hero() {
   useEffect(() => {
     const firstScramble = window.setTimeout(scrambleTitle, 3200);
     const repeatScramble = window.setInterval(scrambleTitle, 9000);
+    const menuFrames = menuScrambleFrames.current;
 
     return () => {
       window.clearTimeout(firstScramble);
@@ -100,11 +169,19 @@ export default function Hero() {
       if (scrambleFrame.current !== null) {
         window.clearInterval(scrambleFrame.current);
       }
+
+      Object.values(menuFrames).forEach((timer) => {
+        window.clearInterval(timer);
+      });
     };
   }, [scrambleTitle]);
 
   return (
-    <section className={styles.hero} id="top" aria-labelledby="codex-title">
+    <section
+      className={`${styles.hero} ${isMenuOpen ? styles.menuOpen : ""}`}
+      id="top"
+      aria-labelledby="codex-title"
+    >
       <header className={styles.topbar}>
         <span className={styles.meta}>CODEX / 2026</span>
 
@@ -193,14 +270,47 @@ export default function Hero() {
           </div>
 
           <nav className={styles.navigation}>
-            <a href="#selected-work" onClick={() => setIsMenuOpen(false)}>
-              <span>01</span> Work
+            <a
+              href="#selected-work"
+              onPointerEnter={() => scrambleMenuLabel("work")}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.navIndex}>01</span>
+              <span
+                className={`${styles.navLabel} ${
+                  scramblingMenu.work ? styles.isScrambling : ""
+                }`}
+              >
+                {menuLabels.work}
+              </span>
             </a>
-            <a href="#about" onClick={() => setIsMenuOpen(false)}>
-              <span>02</span> About
+            <a
+              href="#about"
+              onPointerEnter={() => scrambleMenuLabel("about")}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.navIndex}>02</span>
+              <span
+                className={`${styles.navLabel} ${
+                  scramblingMenu.about ? styles.isScrambling : ""
+                }`}
+              >
+                {menuLabels.about}
+              </span>
             </a>
-            <a href="#contact" onClick={() => setIsMenuOpen(false)}>
-              <span>03</span> Contact
+            <a
+              href="#contact"
+              onPointerEnter={() => scrambleMenuLabel("contact")}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              <span className={styles.navIndex}>03</span>
+              <span
+                className={`${styles.navLabel} ${
+                  scramblingMenu.contact ? styles.isScrambling : ""
+                }`}
+              >
+                {menuLabels.contact}
+              </span>
             </a>
           </nav>
 

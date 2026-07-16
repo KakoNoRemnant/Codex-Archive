@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
 import ThemeInitializer from "@/components/ThemeInitializer";
 import "./globals.css";
 
@@ -67,6 +68,7 @@ export default function RootLayout({
           Skip to content
         </a>
         <ThemeInitializer />
+        <SmoothScroll />
         {children}
       </body>
     </html>

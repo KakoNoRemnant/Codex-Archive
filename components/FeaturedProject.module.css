@@ -57,46 +57,12 @@
 
 .artworkIndex {
   position: absolute;
+  z-index: 3;
   top: 1rem;
   left: 1rem;
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
   letter-spacing: 0.12em;
-}
-
-.orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: min(48vw, 34rem);
-  aspect-ratio: 1;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.orbit::before,
-.orbit::after {
-  content: "";
-  position: absolute;
-  inset: 12%;
-  border: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-  border-radius: inherit;
-}
-
-.orbit::after {
-  inset: 27%;
-}
-
-.monogram {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: clamp(4rem, 13vw, 11rem);
-  font-weight: 500;
-  letter-spacing: -0.09em;
-  line-height: 0.8;
-  transform: translate(-50%, -50%);
 }
 
 .details {
@@ -124,10 +90,6 @@
 
   .artwork {
     min-height: 48vh;
-  }
-
-  .orbit {
-    width: 72vw;
   }
 
   .details {

@@ -48,6 +48,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const nextProject = getNextProject(project.slug);
+  const returnsToFirstProject =
+    project.slug === projects[projects.length - 1].slug;
   const artworkStyle = {
     neural: styles.neural,
     signal: styles.signal,
@@ -111,10 +113,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       </section>
 
       <section className={styles.nextProject}>
-        <p>Next project / {nextProject.number}</p>
+        <p>
+          {returnsToFirstProject ? "Return to project" : "Next project"} /{" "}
+          {nextProject.number}
+        </p>
         <Link href={`/projects/${nextProject.slug}`}>
           <span>{nextProject.title}</span>
-          <span aria-hidden="true">→</span>
+          <span aria-hidden="true">{returnsToFirstProject ? "↺" : "→"}</span>
         </Link>
       </section>
 

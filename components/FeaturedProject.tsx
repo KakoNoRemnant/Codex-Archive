@@ -38,8 +38,17 @@ export default function FeaturedProject() {
           scrub: true,
           fastScrollEnd: true,
           snap: {
-            snapTo: (_progress, self) =>
-              (self?.direction ?? 1) > 0 ? 1 : 0,
+            snapTo: (progress, self) => {
+              if (progress <= 0.08) {
+                return 0;
+              }
+
+              if (progress >= 0.92) {
+                return 1;
+              }
+
+              return self?.direction === -1 ? 0 : 1;
+            },
             delay: 0.02,
             duration: { min: 0.12, max: 0.25 },
             ease: "power1.inOut",
@@ -98,25 +107,6 @@ export default function FeaturedProject() {
           ease: "none",
         })
         .from(
-          `.${styles.orbit}`,
-          {
-            opacity: 0,
-            rotate: -45,
-            scale: 0.55,
-            ease: "none",
-          },
-          0,
-        )
-        .from(
-          `.${styles.monogram}`,
-          {
-            opacity: 0,
-            yPercent: 35,
-            ease: "none",
-          },
-          0.1,
-        )
-        .from(
           [
             `.${styles.header}`,
             `.${styles.title}`,
@@ -156,10 +146,6 @@ export default function FeaturedProject() {
           aria-label="View the Neural Form project"
         >
           <span className={styles.artworkIndex}>01</span>
-          <span className={styles.orbit} aria-hidden="true" />
-          <span className={styles.monogram} aria-hidden="true">
-            N/F
-          </span>
         </Link>
 
         <div className={styles.details}>

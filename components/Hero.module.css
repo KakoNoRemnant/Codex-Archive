@@ -10,6 +10,10 @@
   overflow: hidden;
 }
 
+.menuOpen {
+  z-index: 100;
+}
+
 .topbar,
 .footer {
   position: relative;
@@ -206,10 +210,14 @@
   line-height: 0.95;
 }
 
-.navigation a span {
+.navigation a .navIndex {
   font-family: var(--font-mono), monospace;
   font-size: 0.7rem;
   letter-spacing: 0.1em;
+}
+
+.navLabel {
+  display: inline-block;
 }
 
 @keyframes revealLetter {
