@@ -11,23 +11,48 @@ export type Project = {
     src: string;
     alt: string;
   };
+  media?: ProjectMedia[];
+};
+
+export type ProjectMedia = {
+  type: "image" | "video";
+  src: string;
+  alt: string;
+  poster?: string;
 };
 
 export const projects: Project[] = [
   {
     number: "01",
-    slug: "neural-form",
-    title: "Neural Form",
-    category: "Art direction / Web design",
+    slug: "fashion-design",
+    title: "Fashion Design",
+    category: "Art direction / Fashion identity",
     year: "2026",
     summary:
-      "A digital identity and interactive experience exploring structured systems, synthetic form, and responsive visual language.",
+      "An editorial fashion identity combining portraiture, Japanese typography, and bold graphic systems across digital experiences.",
     featured: true,
     visual: "neural",
     image: {
-      src: "/images/neutral-form.gif",
-      alt: "Animated experimental artwork for Neural Form",
+      src: "/images/fashion-design/fashion-01.jpg",
+      alt: "Red, black, and white editorial portrait for Fashion Design",
     },
+    media: [
+      {
+        type: "image",
+        src: "/images/fashion-design/fashion-01.jpg",
+        alt: "Layered red and monochrome fashion portrait",
+      },
+      {
+        type: "image",
+        src: "/images/fashion-design/fashion-02.jpg",
+        alt: "Fashion portrait with red geometry and Japanese typography",
+      },
+      {
+        type: "image",
+        src: "/images/fashion-design/fashion-03.jpg",
+        alt: "Experimental fashion and beauty collage in red and white",
+      },
+    ],
   },
   {
     number: "02",

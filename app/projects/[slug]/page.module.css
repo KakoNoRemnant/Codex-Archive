@@ -57,38 +57,51 @@
 }
 
 .hasImage {
-  background: #050505;
+  width: fit-content;
+  max-width: min(100%, 90rem);
+  min-height: 0;
+  margin-inline: auto;
+  border: 0;
+  background: transparent;
 }
 
 .projectImage {
+  position: relative;
   z-index: 1;
-  object-fit: cover;
-  object-position: center;
-  opacity: 0;
-  filter: contrast(1.8) saturate(0.2);
-  transform: scale(1.035);
-  animation: revealImage 1.65s cubic-bezier(0.22, 1, 0.36, 1) 0.16s forwards;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(84svh, 62rem);
+  display: block;
+  opacity: 1;
+}
+
+.mediaGallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+  padding-top: 1.5rem;
+}
+
+.galleryItem {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  overflow: hidden;
+  background: transparent;
+}
+
+.galleryMedia {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: min(80svh, 58rem);
+  display: block;
 }
 
 .glitchLayer {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  opacity: 0;
-  pointer-events: none;
-}
-
-.glitchLayerOne {
-  filter: saturate(1.8) hue-rotate(35deg);
-  animation: glitchLayerOne 1.35s steps(2, end) 0.08s forwards;
-}
-
-.glitchLayerTwo {
-  filter: contrast(1.5) hue-rotate(-40deg);
-  animation: glitchLayerTwo 1.3s steps(2, end) 0.12s forwards;
+  display: none;
 }
 
 .visual {
@@ -180,85 +193,6 @@
   display: none;
 }
 
-@keyframes revealImage {
-  0% {
-    opacity: 0;
-    clip-path: inset(48% 0 48% 0);
-  }
-
-  38% {
-    opacity: 0.72;
-    clip-path: inset(22% 0 34% 0);
-  }
-
-  68% {
-    opacity: 0.9;
-    filter: contrast(1.3) saturate(0.7);
-    clip-path: inset(4% 0 8% 0);
-  }
-
-  100% {
-    opacity: 1;
-    filter: none;
-    clip-path: inset(0);
-    transform: scale(1);
-  }
-}
-
-@keyframes glitchLayerOne {
-  0% {
-    opacity: 0;
-  }
-
-  15% {
-    opacity: 0.85;
-    clip-path: inset(12% 0 68% 0);
-    transform: translateX(-1.5%);
-  }
-
-  35% {
-    clip-path: inset(58% 0 18% 0);
-    transform: translateX(1.2%);
-  }
-
-  58% {
-    opacity: 0.55;
-    clip-path: inset(35% 0 45% 0);
-    transform: translateX(-0.7%);
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes glitchLayerTwo {
-  0% {
-    opacity: 0;
-  }
-
-  20% {
-    opacity: 0.65;
-    clip-path: inset(42% 0 40% 0);
-    transform: translateX(1.8%);
-  }
-
-  46% {
-    clip-path: inset(75% 0 8% 0);
-    transform: translateX(-1%);
-  }
-
-  72% {
-    opacity: 0.4;
-    clip-path: inset(18% 0 64% 0);
-    transform: translateX(0.6%);
-  }
-
-  100% {
-    opacity: 0;
-  }
-}
-
 .information {
   display: grid;
   grid-template-columns: 1fr minmax(18rem, 0.7fr);
@@ -328,6 +262,17 @@
 
   .artwork {
     min-height: 60svh;
+  }
+
+  .mediaGallery {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  .projectImage,
+  .galleryMedia {
+    max-height: 78svh;
   }
 
   .neural .shapeOne {

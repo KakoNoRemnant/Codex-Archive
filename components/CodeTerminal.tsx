@@ -137,7 +137,7 @@ export default function CodeTerminal() {
   return (
     <div className={styles.terminal} aria-hidden="true">
       <header className={styles.header}>
-        <span>neural_form.ts</span>
+        <span>fashion_design.ts</span>
         <span>runtime / active</span>
       </header>
 

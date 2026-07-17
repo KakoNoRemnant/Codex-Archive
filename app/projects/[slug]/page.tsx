@@ -1,5 +1,6 @@
+/* Native images preserve artwork dimensions without requiring manual metadata. */
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getNextProject, getProject, projects } from "@/data/projects";
@@ -79,13 +80,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       >
         {project.image ? (
           <>
-            <Image
+            <img
               className={styles.projectImage}
               src={project.image.src}
               alt={project.image.alt}
-              fill
-              sizes="(max-width: 700px) 100vw, 95vw"
-              unoptimized={project.image.src.endsWith(".gif")}
+              decoding="async"
             />
             <span
               className={`${styles.glitchLayer} ${styles.glitchLayerOne}`}
@@ -107,6 +106,38 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </>
         )}
       </div>
+
+      {project.media && project.media.length > 1 && (
+        <section
+          className={styles.mediaGallery}
+          aria-label={`${project.title} image series`}
+        >
+          {project.media.slice(1).map((mediaItem) => (
+            <figure className={styles.galleryItem} key={mediaItem.src}>
+              {mediaItem.type === "video" ? (
+                <video
+                  className={styles.galleryMedia}
+                  src={mediaItem.src}
+                  poster={mediaItem.poster}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  aria-label={mediaItem.alt}
+                />
+              ) : (
+                <img
+                  className={styles.galleryMedia}
+                  src={mediaItem.src}
+                  alt={mediaItem.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+            </figure>
+          ))}
+        </section>
+      )}
 
       <section className={styles.information} aria-label="Project information">
         <p>Project study / {project.year}</p>
