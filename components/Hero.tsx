@@ -355,7 +355,14 @@ export default function Hero() {
       <footer className={styles.footer}>
         <span className={styles.meta}>Discover the archive</span>
         <span className={`${styles.meta} ${styles.location}`}>
-          Begin ↓
+          Begin
+          <svg
+            className={styles.downIcon}
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+          >
+            <path d="M8 3v10M4 9l4 4 4-4" />
+          </svg>
         </span>
       </footer>
 

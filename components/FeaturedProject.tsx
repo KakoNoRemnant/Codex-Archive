@@ -147,7 +147,16 @@ export default function FeaturedProject() {
         >
           <CodeTerminal />
           <span className={styles.artworkIndex}>01</span>
-          <span className={styles.openProject}>Open project ↗</span>
+          <span className={styles.openProject}>
+            Open project
+            <svg
+              className={styles.openProjectIcon}
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+            >
+              <path d="M4 12 12 4M6 4h6v6" />
+            </svg>
+          </span>
         </Link>
 
         <div className={styles.details}>

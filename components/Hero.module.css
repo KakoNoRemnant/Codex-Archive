@@ -31,7 +31,7 @@
 .closeButton,
 .themeButton {
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   font-weight: 400;
   letter-spacing: 0.12em;
   line-height: 1;
@@ -103,7 +103,7 @@
   align-items: center;
   gap: 0.55rem;
   font-family: var(--font-mono), monospace;
-  font-size: 0.65rem;
+  font-size: 0.69rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
   opacity: 0.62;
@@ -116,6 +116,23 @@
   background: #6fa77a;
   box-shadow: 0 0 0 0 rgb(111 167 122 / 30%);
   animation: statusPulse 2.4s ease-out infinite;
+}
+
+.location {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.downIcon {
+  width: 0.9rem;
+  height: 0.9rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
 }
 
 .title {
@@ -223,7 +240,7 @@
 
 .menuFooter {
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
 }
@@ -247,7 +264,7 @@
 
 .navigation a .navIndex {
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   letter-spacing: 0.1em;
 }
 

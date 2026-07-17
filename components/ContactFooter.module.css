@@ -16,7 +16,7 @@
   justify-content: space-between;
   gap: 2rem;
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   letter-spacing: 0.11em;
   line-height: 1.4;
   text-transform: uppercase;
@@ -46,11 +46,23 @@
   font-size: clamp(1.2rem, 2.5vw, 2rem);
 }
 
-.email span {
+.emailIcon,
+.upIcon {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.emailIcon {
   transition: transform 250ms ease;
 }
 
-.email:hover span {
+.email:hover .emailIcon {
   transform: translate(0.25rem, -0.25rem);
 }
 
@@ -83,6 +95,9 @@
 }
 
 .backToTop span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -116,6 +131,11 @@
     flex-wrap: wrap;
   }
 
+  .labelRow,
+  .bottom {
+    font-size: 0.68rem;
+  }
+
   .heading {
     font-size: clamp(3rem, 14vw, 5rem);
     overflow-wrap: anywhere;
@@ -129,7 +149,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .email span,
+  .emailIcon,
   .backToTop,
   .backToTop::before,
   .backToTop span {

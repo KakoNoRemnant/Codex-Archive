@@ -77,9 +77,13 @@ export default function ProjectArchive() {
             <h3 className={styles.title}>{project.title}</h3>
             <p className={styles.category}>{project.category}</p>
             <span className={styles.year}>{project.year}</span>
-            <span className={styles.arrow} aria-hidden="true">
-              ↗
-            </span>
+            <svg
+              className={styles.arrow}
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+            >
+              <path d="M4 12 12 4M6 4h6v6" />
+            </svg>
           </Link>
         ))}
       </div>

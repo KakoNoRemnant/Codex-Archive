@@ -27,7 +27,7 @@
   display: grid;
   align-content: end;
   gap: 2rem;
-  padding: clamp(7rem, 15vh, 11rem) 0 clamp(3rem, 7vh, 5rem);
+  padding: clamp(4rem, 8vh, 6rem) 0 clamp(2rem, 3.5vh, 3rem);
 }
 
 .hero h1 {
@@ -318,7 +318,7 @@
   }
 
   .hero {
-    padding: 7rem 0 3rem;
+    padding: 4.5rem 0 2.25rem;
   }
 
   .hero h1 {

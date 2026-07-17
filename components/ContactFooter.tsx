@@ -39,7 +39,13 @@ export default function ContactFooter() {
           href="mailto:victor.promsrichan@hotmail.com"
         >
           victor.promsrichan@hotmail.com
-          <span aria-hidden="true">↗</span>
+          <svg
+            className={styles.emailIcon}
+            viewBox="0 0 16 16"
+            aria-hidden="true"
+          >
+            <path d="M4 12 12 4M6 4h6v6" />
+          </svg>
         </a>
       </div>
 
@@ -51,7 +57,16 @@ export default function ContactFooter() {
           href="#top"
           onClick={scrollToTop}
         >
-          <span>Back to top ↑</span>
+          <span>
+            Back to top
+            <svg
+              className={styles.upIcon}
+              viewBox="0 0 16 16"
+              aria-hidden="true"
+            >
+              <path d="M8 13V3M4 7l4-4 4 4" />
+            </svg>
+          </span>
         </a>
       </div>
     </footer>

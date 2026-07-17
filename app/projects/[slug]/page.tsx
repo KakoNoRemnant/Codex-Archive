@@ -113,16 +113,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <p className={styles.summary}>{project.summary}</p>
       </section>
 
-      <section className={styles.nextProject}>
-        <p>
-          {returnsToFirstProject ? "Return to project" : "Next project"} /{" "}
-          {nextProject.number}
-        </p>
-        <Link href={`/projects/${nextProject.slug}`}>
-          <span>{nextProject.title}</span>
-          <span aria-hidden="true">{returnsToFirstProject ? "↺" : "→"}</span>
-        </Link>
-      </section>
+      {!returnsToFirstProject && (
+        <section className={styles.nextProject}>
+          <p>Next project / {nextProject.number}</p>
+          <Link href={`/projects/${nextProject.slug}`}>
+            <span>{nextProject.title}</span>
+            <span aria-hidden="true">→</span>
+          </Link>
+        </section>
+      )}
 
       <footer className={styles.footer}>
         <span>CODEX / Design archive</span>

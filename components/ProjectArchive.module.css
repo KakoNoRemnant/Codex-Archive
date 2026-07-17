@@ -2,7 +2,7 @@
   position: relative;
   z-index: 2;
   min-height: 100svh;
-  padding: 7rem 1.5rem 3rem;
+  padding: 5.5rem 1.5rem 3rem;
   background: var(--paper);
   color: var(--ink);
 }
@@ -12,7 +12,7 @@
 .category,
 .year {
   font-family: var(--font-mono), monospace;
-  font-size: 0.7rem;
+  font-size: 0.74rem;
   letter-spacing: 0.1em;
   line-height: 1.4;
   text-transform: uppercase;
@@ -22,12 +22,12 @@
   display: flex;
   justify-content: space-between;
   gap: 2rem;
-  padding-bottom: 4rem;
+  padding-bottom: 2.75rem;
 }
 
 .heading {
   max-width: 8ch;
-  margin-bottom: 5rem;
+  margin-bottom: 3.75rem;
   font-size: clamp(4rem, 10vw, 9rem);
   font-weight: 500;
   letter-spacing: -0.08em;
@@ -75,7 +75,13 @@
 }
 
 .arrow {
-  font-size: 1.25rem;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: square;
+  stroke-linejoin: miter;
   transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -86,12 +92,19 @@
 
 @media (max-width: 700px) {
   .archive {
-    padding: 5rem 1rem 2rem;
+    padding: 4rem 1rem 2rem;
   }
 
   .heading {
-    margin-bottom: 3rem;
+    margin-bottom: 2.5rem;
     font-size: clamp(3.2rem, 16vw, 5rem);
+  }
+
+  .header,
+  .number,
+  .category,
+  .year {
+    font-size: 0.68rem;
   }
 
   .row {
