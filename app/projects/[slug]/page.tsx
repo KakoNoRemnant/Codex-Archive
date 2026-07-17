@@ -49,9 +49,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   }
 
   const nextProject = getNextProject(project.slug);
+  const primaryMedia = project.media?.[0];
+  const hasEmptyCanvas = project.visual === "empty";
   const returnsToFirstProject =
     project.slug === projects[projects.length - 1].slug;
   const artworkStyle = {
+    empty: styles.empty,
     neural: styles.neural,
     signal: styles.signal,
     terminal: styles.terminal,
@@ -74,28 +77,33 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
       <div
         className={`${styles.artwork} ${artworkStyle} ${
-          project.image ? styles.hasImage : ""
+          primaryMedia ? styles.hasImage : ""
         }`}
-        aria-hidden={project.image ? undefined : true}
+        aria-hidden={primaryMedia ? undefined : true}
       >
-        {project.image ? (
+        {primaryMedia ? (
           <>
-            <img
-              className={styles.projectImage}
-              src={project.image.src}
-              alt={project.image.alt}
-              decoding="async"
-            />
-            <span
-              className={`${styles.glitchLayer} ${styles.glitchLayerOne}`}
-              style={{ backgroundImage: `url(${project.image.src})` }}
-            />
-            <span
-              className={`${styles.glitchLayer} ${styles.glitchLayerTwo}`}
-              style={{ backgroundImage: `url(${project.image.src})` }}
-            />
+            {primaryMedia.type === "video" ? (
+              <video
+                className={styles.projectImage}
+                src={primaryMedia.src}
+                poster={primaryMedia.poster}
+                autoPlay
+                muted
+                loop
+                playsInline
+                aria-label={primaryMedia.alt}
+              />
+            ) : (
+              <img
+                className={styles.projectImage}
+                src={primaryMedia.src}
+                alt={primaryMedia.alt}
+                decoding="async"
+              />
+            )}
           </>
-        ) : (
+        ) : hasEmptyCanvas ? null : (
           <>
             <span>{project.number}</span>
             <div className={styles.visual}>

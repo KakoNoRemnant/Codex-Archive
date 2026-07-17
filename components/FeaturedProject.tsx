@@ -15,6 +15,8 @@ import { projects, type ProjectMedia } from "@/data/projects";
 import styles from "./FeaturedProject.module.css";
 
 const PROJECT_DURATION = 6500;
+const PROJECT_EXIT_DURATION = 0.58;
+const PROJECT_ENTER_DURATION = 0.82;
 
 function MediaItem({ media, index }: { media: ProjectMedia; index: number }) {
   if (media.type === "video") {
@@ -39,7 +41,7 @@ function MediaItem({ media, index }: { media: ProjectMedia; index: number }) {
       alt={index === 0 ? media.alt : ""}
       fill
       sizes="(max-width: 700px) 88vw, 55vw"
-      unoptimized={media.src.endsWith(".gif")}
+      unoptimized
     />
   );
 }
@@ -47,19 +49,18 @@ function MediaItem({ media, index }: { media: ProjectMedia; index: number }) {
 export default function FeaturedProject() {
   const stageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLElement>(null);
+  const transitionLockRef = useRef(true);
+  const transitionTimelineRef = useRef<gsap.core.Timeline | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isInView, setIsInView] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [hoveredMedia, setHoveredMedia] = useState<number | null>(null);
-  const [selectedMedia, setSelectedMedia] = useState<number | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const activeProject = projects[activeIndex];
-  const focusedMedia = hoveredMedia ?? selectedMedia;
 
   const transitionTo = useCallback(
     (nextIndex: number) => {
       if (
-        isTransitioning ||
+        transitionLockRef.current ||
         nextIndex === activeIndex ||
         nextIndex < 0 ||
         nextIndex >= projects.length
@@ -73,12 +74,11 @@ export default function FeaturedProject() {
       ).matches;
 
       if (!content || reducedMotion) {
-        setHoveredMedia(null);
-        setSelectedMedia(null);
         setActiveIndex(nextIndex);
         return;
       }
 
+      transitionLockRef.current = true;
       setIsTransitioning(true);
       const mediaCards = content.querySelectorAll<HTMLElement>(
         `.${styles.mediaCard}`,
@@ -87,49 +87,62 @@ export default function FeaturedProject() {
         `.${styles.projectTitle}, .${styles.projectInformation}`,
       );
 
-      gsap
+      transitionTimelineRef.current = gsap
         .timeline({
           onComplete: () => {
-            setHoveredMedia(null);
-            setSelectedMedia(null);
+            transitionTimelineRef.current = null;
             setActiveIndex(nextIndex);
-            setIsTransitioning(false);
           },
         })
         .to(mediaCards, {
           opacity: 0,
-          yPercent: (index) => (index % 2 === 0 ? -28 : 32),
-          xPercent: (index) => (index === 1 ? -18 : 12),
-          scale: 0.88,
-          rotation: (index) => (index - 1) * 2.5,
-          duration: 0.65,
-          stagger: 0.055,
-          ease: "power3.inOut",
+          yPercent: (index) => (index % 2 === 0 ? -8 : 8),
+          xPercent: (index) => (index === 1 ? -4 : 4),
+          scale: 0.97,
+          rotation: (index) => (index - 1) * 0.6,
+          duration: PROJECT_EXIT_DURATION,
+          stagger: 0.035,
+          ease: "power2.inOut",
         })
         .to(
           textElements,
           {
             opacity: 0,
-            y: 35,
-            duration: 0.42,
-            stagger: 0.04,
-            ease: "power2.in",
+            y: 12,
+            duration: 0.46,
+            stagger: 0.025,
+            ease: "power2.inOut",
           },
           0.05,
         );
     },
-    [activeIndex, isTransitioning],
+    [activeIndex],
   );
+
+  useEffect(() => {
+    const lock = transitionLockRef;
+    const timeline = transitionTimelineRef;
+
+    return () => {
+      timeline.current?.kill();
+      timeline.current = null;
+      lock.current = false;
+    };
+  }, []);
 
   useEffect(() => {
     const content = contentRef.current;
 
-    if (!content) {
-      return;
-    }
+    if (
+      !content ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      const unlockFrame = window.requestAnimationFrame(() => {
+        transitionLockRef.current = false;
+        setIsTransitioning(false);
+      });
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
+      return () => window.cancelAnimationFrame(unlockFrame);
     }
 
     const mediaCards = content.querySelectorAll<HTMLElement>(
@@ -139,39 +152,46 @@ export default function FeaturedProject() {
       `.${styles.projectTitle}, .${styles.projectInformation}`,
     );
     const animation = gsap.context(() => {
-      gsap.fromTo(
-        mediaCards,
-        {
-          opacity: 0,
-          yPercent: (index) => (index % 2 === 0 ? 30 : -24),
-          xPercent: (index) => (index === 1 ? -15 : 12),
-          scale: 0.82,
-          rotation: (index) => (index - 1) * -3,
-        },
-        {
-          opacity: 1,
-          yPercent: 0,
-          xPercent: 0,
-          scale: 1,
-          rotation: 0,
-          duration: 1.15,
-          stagger: 0.09,
-          ease: "power4.out",
-        },
-      );
-
-      gsap.fromTo(
-        textElements,
-        { opacity: 0, y: 55 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.9,
-          stagger: 0.1,
-          delay: 0.18,
-          ease: "power3.out",
-        },
-      );
+      transitionTimelineRef.current = gsap
+        .timeline({
+          onComplete: () => {
+            transitionTimelineRef.current = null;
+            transitionLockRef.current = false;
+            setIsTransitioning(false);
+          },
+        })
+        .fromTo(
+          mediaCards,
+          {
+            opacity: 0,
+            yPercent: (index) => (index % 2 === 0 ? 8 : -8),
+            xPercent: (index) => (index === 1 ? -4 : 4),
+            scale: 0.96,
+            rotation: (index) => (index - 1) * -0.6,
+          },
+          {
+            opacity: 1,
+            yPercent: 0,
+            xPercent: 0,
+            scale: 1,
+            rotation: 0,
+            duration: PROJECT_ENTER_DURATION,
+            stagger: 0.045,
+            ease: "power3.out",
+          },
+        )
+        .fromTo(
+          textElements,
+          { opacity: 0, y: 14 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.68,
+            stagger: 0.045,
+            ease: "power2.out",
+          },
+          0.08,
+        );
     }, content);
 
     return () => animation.revert();
@@ -277,6 +297,7 @@ export default function FeaturedProject() {
   }
 
   const media = activeProject.media ?? [];
+  const displayedMedia = media.slice(0, 3);
 
   return (
     <div ref={stageRef} className={styles.stage} id="selected-work">
@@ -304,37 +325,16 @@ export default function FeaturedProject() {
           >
             <div className={styles.mediaComposition}>
               {media.length > 0
-                ? media.slice(0, 3).map((item, index) => (
-                    <button
-                      className={`${styles.mediaCard} ${
-                        focusedMedia === index ? styles.focusedMediaCard : ""
-                      } ${
-                        focusedMedia !== null && focusedMedia !== index
-                          ? styles.backgroundMediaCard
-                          : ""
-                      }`}
-                      type="button"
-                      aria-label={`Focus artwork ${index + 1}: ${item.alt}`}
-                      aria-pressed={selectedMedia === index}
-                      onPointerEnter={() => setHoveredMedia(index)}
-                      onPointerLeave={() => setHoveredMedia(null)}
-                      onFocus={(event) => {
-                        if (event.currentTarget.matches(":focus-visible")) {
-                          setHoveredMedia(index);
-                        }
-                      }}
-                      onBlur={() => setHoveredMedia(null)}
-                      onClick={() =>
-                        setSelectedMedia((current) =>
-                          current === index ? null : index,
-                        )
-                      }
-                      key={`${item.src}-${index}`}
-                    >
+                ? displayedMedia.map((item, frameIndex) => (
+                    <div className={styles.mediaCard} key={item.src}>
                       <span className={styles.mediaCardSurface}>
-                        <MediaItem media={item} index={index} />
+                        <MediaItem media={item} index={frameIndex} />
                       </span>
-                    </button>
+                      <span className={styles.frameData} aria-hidden="true">
+                        <span>FRAME {String(frameIndex + 1).padStart(2, "0")}</span>
+                        <span>ARCHIVE</span>
+                      </span>
+                    </div>
                   ))
                 : Array.from({ length: 3 }, (_, index) => (
                     <div
@@ -344,7 +344,9 @@ export default function FeaturedProject() {
                     >
                       {index === 0 && (
                         <>
-                          <span className={styles.fallbackLabel}>Project file</span>
+                          <span className={styles.fallbackLabel}>
+                            Project file
+                          </span>
                           <span className={styles.fallbackNumber}>
                             {activeProject.number}
                           </span>
@@ -352,7 +354,9 @@ export default function FeaturedProject() {
                       )}
                       {index === 1 && (
                         <>
-                          <span className={styles.fallbackLabel}>CODEX / Archive</span>
+                          <span className={styles.fallbackLabel}>
+                            CODEX / Archive
+                          </span>
                           <span className={styles.fallbackTitle}>
                             {activeProject.title
                               .split(" ")
@@ -391,6 +395,11 @@ export default function FeaturedProject() {
         </div>
 
         <footer className={styles.footer}>
+          <div className={styles.archiveLabel} aria-hidden="true">
+            <span>CODEX / FILE INDEX</span>
+            <span>{String(projects.length).padStart(2, "0")} RECORDS</span>
+          </div>
+
           <div className={styles.projectNavigation} aria-label="Choose project">
             {projects.map((project, index) => (
               <button
@@ -398,51 +407,28 @@ export default function FeaturedProject() {
                 type="button"
                 aria-label={`Show ${project.title}`}
                 aria-current={index === activeIndex ? "true" : undefined}
+                disabled={isTransitioning}
                 onClick={() => transitionTo(index)}
                 key={project.slug}
               >
-                {project.number}
+                <span className={styles.fileNumber}>{project.number}</span>
+                <span className={styles.fileTitle}>{project.title}</span>
+                <span className={styles.fileState} aria-hidden="true">
+                  {index === activeIndex ? "ACTIVE" : "OPEN"}
+                </span>
               </button>
             ))}
           </div>
 
-          <div className={styles.progressTrack} aria-hidden="true">
-            <span
-              className={
-                isPaused || !isInView ? styles.progressPaused : ""
-              }
-              key={activeProject.slug}
-            />
-          </div>
-
-          <div className={styles.actions}>
-            <button
-              type="button"
-              aria-label="Previous project"
-              onClick={() =>
-                transitionTo(
-                  (activeIndex - 1 + projects.length) % projects.length,
-                )
-              }
-            >
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M13 8H3M7 4 3 8l4 4" />
-              </svg>
-            </button>
-            <button
-              type="button"
-              aria-label="Next project"
-              onClick={() => transitionTo((activeIndex + 1) % projects.length)}
-            >
-              <svg viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M3 8h10M9 4l4 4-4 4" />
-              </svg>
-            </button>
+          <div className={styles.recordAction}>
+            <span>
+              RECORD {activeProject.number} / {activeProject.year}
+            </span>
             <Link
               className={styles.openProject}
               href={`/projects/${activeProject.slug}`}
             >
-              Open project
+              Enter record
               <svg viewBox="0 0 16 16" aria-hidden="true">
                 <path d="M4 12 12 4M6 4h6v6" />
               </svg>
@@ -450,6 +436,7 @@ export default function FeaturedProject() {
           </div>
         </footer>
       </section>
+
     </div>
   );
 }

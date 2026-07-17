@@ -6,7 +6,7 @@ export type Project = {
   year: string;
   summary: string;
   featured?: boolean;
-  visual: "neural" | "signal" | "terminal" | "material";
+  visual: "empty" | "neural" | "signal" | "terminal" | "material";
   image?: {
     src: string;
     alt: string;
@@ -24,35 +24,14 @@ export type ProjectMedia = {
 export const projects: Project[] = [
   {
     number: "01",
-    slug: "fashion-design",
-    title: "Fashion Design",
-    category: "Art direction / Fashion identity",
+    slug: "art-work",
+    title: "Art Work",
+    category: "Art direction / Visual study",
     year: "2026",
     summary:
-      "An editorial fashion identity combining portraiture, Japanese typography, and bold graphic systems across digital experiences.",
+      "An evolving visual study reserved for new artwork, material experiments, and future digital compositions.",
     featured: true,
-    visual: "neural",
-    image: {
-      src: "/images/fashion-design/fashion-01.jpg",
-      alt: "Red, black, and white editorial portrait for Fashion Design",
-    },
-    media: [
-      {
-        type: "image",
-        src: "/images/fashion-design/fashion-01.jpg",
-        alt: "Layered red and monochrome fashion portrait",
-      },
-      {
-        type: "image",
-        src: "/images/fashion-design/fashion-02.jpg",
-        alt: "Fashion portrait with red geometry and Japanese typography",
-      },
-      {
-        type: "image",
-        src: "/images/fashion-design/fashion-03.jpg",
-        alt: "Experimental fashion and beauty collage in red and white",
-      },
-    ],
+    visual: "empty",
   },
   {
     number: "02",

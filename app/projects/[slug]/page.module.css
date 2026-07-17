@@ -57,31 +57,34 @@
 }
 
 .hasImage {
-  width: fit-content;
-  max-width: min(100%, 90rem);
-  min-height: 0;
+  width: 100%;
+  max-width: 110rem;
+  height: clamp(32rem, 78svh, 62rem);
+  min-height: 32rem;
   margin-inline: auto;
   border: 0;
-  background: transparent;
+  background: #080808;
 }
 
 .projectImage {
   position: relative;
   z-index: 1;
-  width: auto;
-  max-width: 100%;
-  height: auto;
-  max-height: min(84svh, 62rem);
+  width: 100%;
+  height: 100%;
   display: block;
+  object-fit: contain;
   opacity: 1;
 }
 
 .mediaGallery {
+  width: 100%;
+  max-width: 110rem;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
   align-items: start;
   padding-top: 1.5rem;
+  margin-inline: auto;
 }
 
 .galleryItem {
@@ -90,6 +93,10 @@
   margin-inline: auto;
   overflow: hidden;
   background: transparent;
+}
+
+.galleryItem:only-child {
+  grid-column: 1 / -1;
 }
 
 .galleryMedia {
@@ -107,6 +114,10 @@
 .visual {
   position: absolute;
   inset: 0;
+}
+
+.empty {
+  background: transparent;
 }
 
 .shapeOne,
@@ -264,13 +275,17 @@
     min-height: 60svh;
   }
 
+  .hasImage {
+    height: min(72svh, 46rem);
+    min-height: 24rem;
+  }
+
   .mediaGallery {
     grid-template-columns: 1fr;
     gap: 1rem;
     padding-top: 1rem;
   }
 
-  .projectImage,
   .galleryMedia {
     max-height: 78svh;
   }

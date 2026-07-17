@@ -21,6 +21,8 @@
 
 .header,
 .footer,
+.archiveLabel,
+.recordAction,
 .projectInformation,
 .fallbackLabel,
 .fallbackCategory {
@@ -62,17 +64,23 @@
   position: relative;
   z-index: 1;
   min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(12rem, 22vw, 24rem);
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
 
 .mediaCard {
-  position: absolute;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.45rem;
   padding: 0;
   border: 0;
   background: transparent;
-  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 24%);
   color: inherit;
-  cursor: zoom-in;
-  transition: box-shadow 450ms ease;
   will-change: transform, opacity;
 }
 
@@ -82,101 +90,44 @@
   height: 100%;
   display: block;
   overflow: hidden;
-  background: transparent;
+  background: #090909;
   transform: scale(1);
   transform-origin: center;
-  transition:
-    transform 650ms cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 450ms ease,
-    filter 450ms ease;
-  will-change: transform, opacity, filter;
-}
-
-.focusedMediaCard {
-  z-index: 8 !important;
-  cursor: zoom-out;
-}
-
-.focusedMediaCard .mediaCardSurface {
-  transform: scale(1.14);
-}
-
-.backgroundMediaCard {
-  z-index: 0 !important;
-  pointer-events: auto;
-  box-shadow: none;
-}
-
-.backgroundMediaCard .mediaCardSurface {
-  opacity: 0.16;
-  filter: grayscale(1) blur(2px);
-  transform: scale(0.88);
-}
-
-.mediaCard:focus-visible {
-  outline: 1px solid var(--paper);
-  outline-offset: 0.35rem;
 }
 
 .mediaCard:nth-child(1) {
-  z-index: 2;
-  top: 5%;
-  left: 24%;
-  width: min(55vw, 54rem);
-  height: 66%;
+  grid-column: 1;
+  grid-row: 1 / 3;
 }
 
 .mediaCard:nth-child(2) {
-  z-index: 3;
-  bottom: 8%;
-  left: 3%;
-  width: min(29vw, 28rem);
-  height: 43%;
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .mediaCard:nth-child(3) {
-  z-index: 1;
-  top: 14%;
-  right: 2%;
-  width: min(25vw, 24rem);
-  height: 36%;
+  grid-column: 2;
+  grid-row: 2;
 }
 
 .media {
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   filter: saturate(0.88) contrast(1.06);
 }
 
-@media (min-width: 1600px) {
-  .mediaCard:nth-child(1) {
-    left: 25%;
-  }
-
-  .mediaCard:nth-child(2) {
-    left: 5%;
-  }
-
-  .mediaCard:nth-child(3) {
-    right: 5%;
-  }
-}
-
-.mediaCard:nth-child(1) .media {
-  object-position: center;
-  transform: scale(1.04);
-}
-
-.mediaCard:nth-child(2) .media {
-  object-position: 30% 58%;
-  transform: scale(1.42);
-}
-
-.mediaCard:nth-child(3) .media {
-  object-position: 72% 35%;
-  transform: scale(1.7);
+.frameData {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-mono), monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.11em;
+  line-height: 1;
+  text-transform: uppercase;
+  opacity: 0.58;
 }
 
 .fallbackCard {
@@ -263,38 +214,85 @@
   position: relative;
   z-index: 10;
   display: grid;
-  grid-template-columns: auto minmax(5rem, 1fr) auto;
-  gap: 1.5rem;
-  align-items: center;
+  grid-template-columns: 9rem minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: stretch;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(241 240 235 / 20%);
 }
 
-.projectNavigation,
-.actions {
+.archiveLabel,
+.recordAction {
   display: flex;
-  align-items: center;
-  gap: 0.35rem;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.65rem;
+  padding-block: 0.55rem;
+  opacity: 0.58;
 }
 
-.projectNavigation button,
-.actions button {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  cursor: pointer;
+.projectNavigation {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-left: 1px solid rgb(241 240 235 / 20%);
 }
 
 .projectNavigation button {
-  min-width: 2.15rem;
-  min-height: 2.15rem;
-  padding: 0.4rem;
-  opacity: 0.38;
-  transition: opacity 250ms ease, background-color 250ms ease;
+  position: relative;
+  min-width: 0;
+  min-height: 4.25rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 1fr auto;
+  gap: 0.35rem 0.7rem;
+  align-items: start;
+  padding: 0.55rem 0.7rem;
+  overflow: hidden;
+  border: 0;
+  border-right: 1px solid rgb(241 240 235 / 20%);
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 250ms ease, color 250ms ease;
 }
 
-.projectNavigation button:hover,
-.projectNavigation button:focus-visible,
-.projectNavigation .activeButton {
-  opacity: 1;
+.fileNumber,
+.fileState {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  line-height: 1;
+}
+
+.fileTitle {
+  min-width: 0;
+  overflow: hidden;
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(0.78rem, 1vw, 1rem);
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.fileState {
+  grid-column: 2;
+  opacity: 0.42;
+}
+
+.projectNavigation button:not(:disabled):hover,
+.projectNavigation button:focus-visible {
+  background: rgb(241 240 235 / 9%);
+}
+
+.projectNavigation button:disabled {
+  cursor: default;
+}
+
+.projectNavigation button:disabled:not(.activeButton) {
+  opacity: 0.48;
 }
 
 .projectNavigation .activeButton {
@@ -302,35 +300,15 @@
   color: var(--ink);
 }
 
-.progressTrack {
-  height: 1px;
-  overflow: hidden;
-  background: rgb(241 240 235 / 18%);
+.recordAction {
+  align-items: flex-end;
+  opacity: 1;
 }
 
-.progressTrack span {
-  display: block;
-  width: 100%;
-  height: 100%;
-  background: currentColor;
-  transform: scaleX(0);
-  transform-origin: left;
-  animation: projectProgress 6.5s linear forwards;
+.recordAction > span {
+  opacity: 0.58;
 }
 
-.progressTrack .progressPaused {
-  animation-play-state: paused;
-}
-
-.actions button {
-  width: 2.2rem;
-  height: 2.2rem;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgb(241 240 235 / 25%);
-}
-
-.actions svg,
 .openProject svg {
   width: 0.9rem;
   height: 0.9rem;
@@ -351,17 +329,27 @@
   transition: background-color 250ms ease, color 250ms ease;
 }
 
-.actions button:hover,
-.actions button:focus-visible,
 .openProject:hover,
 .openProject:focus-visible {
   background: var(--paper);
   color: var(--ink);
 }
 
-@keyframes projectProgress {
-  to {
-    transform: scaleX(1);
+@media (max-width: 1100px) {
+  .footer {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .archiveLabel {
+    display: none;
+  }
+
+  .projectNavigation button {
+    padding-inline: 0.55rem;
+  }
+
+  .fileState {
+    display: none;
   }
 }
 
@@ -374,39 +362,36 @@
     font-size: 0.64rem;
   }
 
+  .projectContent {
+    gap: 1rem;
+  }
+
+  .mediaComposition {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr) minmax(5.5rem, 26%);
+    gap: 0.55rem;
+  }
+
   .mediaCard:nth-child(1) {
-    top: 2%;
-    left: 18%;
-    width: 64%;
-    height: auto;
-    aspect-ratio: 7 / 10;
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .mediaCard:nth-child(2),
+  .mediaCard:nth-child(3) {
+    grid-row: 2;
   }
 
   .mediaCard:nth-child(2) {
-    bottom: 2%;
-    left: 1%;
-    width: 35%;
-    height: auto;
-    aspect-ratio: 2 / 3;
+    grid-column: 1;
   }
 
   .mediaCard:nth-child(3) {
-    top: 38%;
-    right: 0;
-    width: 34%;
-    height: auto;
-    aspect-ratio: 4 / 5;
+    grid-column: 2;
   }
 
-  .mediaCard:nth-child(1) .media,
-  .mediaCard:nth-child(2) .media,
-  .mediaCard:nth-child(3) .media {
-    object-position: center;
-    transform: none;
-  }
-
-  .focusedMediaCard .mediaCardSurface {
-    transform: scale(1.08);
+  .frameData {
+    font-size: 0.5rem;
   }
 
   .fallbackCard {
@@ -441,60 +426,57 @@
   }
 
   .footer {
-    grid-template-columns: 1fr auto;
+    grid-template-columns: 1fr;
     gap: 0.75rem;
   }
 
-  .progressTrack {
-    grid-column: 1 / -1;
-    grid-row: 1;
-  }
-
   .projectNavigation {
-    grid-column: 1;
-    grid-row: 2;
+    display: grid;
+    grid-auto-columns: minmax(8.5rem, 68vw);
+    grid-auto-flow: column;
+    grid-template-columns: none;
+    overflow-x: auto;
+    border-top: 1px solid rgb(241 240 235 / 20%);
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
 
-  .actions {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .actions button {
+  .projectNavigation::-webkit-scrollbar {
     display: none;
   }
+
+  .projectNavigation button {
+    min-height: 3.25rem;
+    border-bottom: 1px solid rgb(241 240 235 / 20%);
+    scroll-snap-align: start;
+  }
+
+  .recordAction {
+    flex-direction: row;
+    align-items: center;
+  }
+
 }
 
-@media (max-width: 1000px) and (max-height: 600px) {
+@media (max-width: 1000px) and (max-height: 600px) and (orientation: landscape) {
+  .mediaComposition {
+    grid-template-columns: minmax(0, 1fr) minmax(8rem, 28%);
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
   .mediaCard:nth-child(1) {
-    top: 0;
-    left: 31%;
-    width: auto;
-    height: 82%;
-    aspect-ratio: 7 / 10;
+    grid-column: 1;
+    grid-row: 1 / 3;
   }
 
   .mediaCard:nth-child(2) {
-    bottom: 0;
-    left: 8%;
-    width: auto;
-    height: 54%;
-    aspect-ratio: 2 / 3;
+    grid-column: 2;
+    grid-row: 1;
   }
 
   .mediaCard:nth-child(3) {
-    top: 15%;
-    right: 8%;
-    width: auto;
-    height: 48%;
-    aspect-ratio: 4 / 5;
-  }
-
-  .mediaCard:nth-child(1) .media,
-  .mediaCard:nth-child(2) .media,
-  .mediaCard:nth-child(3) .media {
-    object-position: center;
-    transform: none;
+    grid-column: 2;
+    grid-row: 2;
   }
 }
 
@@ -505,23 +487,17 @@
   }
 
   .projectNavigation button {
-    min-width: 1.9rem;
+    padding-inline: 0.55rem;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mediaCard,
-  .mediaCardSurface,
   .projectTitle,
   .projectInformation,
   .projectNavigation button,
-  .openProject,
-  .actions button {
+  .openProject {
     transition: none;
-  }
-
-  .progressTrack span {
-    animation: none;
-    transform: scaleX(1);
   }
 }
