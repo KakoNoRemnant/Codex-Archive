@@ -4,11 +4,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./Hero.module.css";
 
 const SCRAMBLE_SYMBOLS = Array.from(
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#/*+<>[]" +
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" +
     "アカサタナハマヤラワ" +
     "天地玄空未来光影" +
-    "กขคงจฉชทนมยร" +
-    "ΩΣΔΛΨЖФЯ",
+    "<>[]{}|/\\=+*#%~^:;",
 );
 
 type MenuLabel = "work" | "about" | "contact";

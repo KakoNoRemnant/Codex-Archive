@@ -37,6 +37,7 @@ export default function ContactFooter() {
         <a
           className={styles.email}
           href="mailto:victor.promsrichan@hotmail.com"
+          data-copyable
         >
           victor.promsrichan@hotmail.com
           <svg

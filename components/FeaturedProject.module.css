@@ -16,7 +16,7 @@
   background: var(--ink);
   color: var(--paper);
   transform-origin: top center;
-  will-change: clip-path;
+  will-change: clip-path, transform;
 }
 
 .header,

@@ -259,15 +259,24 @@ export default function FeaturedProject() {
           trigger: stageRef.current,
           start: "top bottom",
           end: "top 76%",
-          scrub: true,
+          scrub: 0.65,
           fastScrollEnd: true,
         },
       });
 
       transition.fromTo(
         panel,
-        { clipPath: "inset(0 0 68% 0)" },
-        { clipPath: "inset(0 0 0% 0)", ease: "none" },
+        {
+          clipPath: "inset(0 0 68% 0)",
+          yPercent: 7,
+          scale: 0.985,
+        },
+        {
+          clipPath: "inset(0 0 0% 0)",
+          yPercent: 0,
+          scale: 1,
+          ease: "none",
+        },
       );
 
       if (hero) {

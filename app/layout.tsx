@@ -1,3 +1,4 @@
+import ContentProtection from "@/components/ContentProtection";
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter } from "next/font/google";
 import SmoothScroll from "@/components/SmoothScroll";
@@ -69,6 +70,7 @@ export default function RootLayout({
         </a>
         <ThemeInitializer />
         <SmoothScroll />
+        <ContentProtection />
         {children}
       </body>
     </html>

@@ -32,6 +32,9 @@ body {
   transition:
     background-color 450ms ease,
     color 450ms ease;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 button,
@@ -42,6 +45,19 @@ a {
 
 a {
   text-decoration: none;
+}
+
+img,
+video {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+[data-copyable],
+[data-copyable] * {
+  -webkit-touch-callout: default;
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 :focus-visible {
